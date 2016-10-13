@@ -8,22 +8,28 @@ class App extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-
-    }
+    this.state = {}
   }
 
   componentDidMount() {
     get('https://api.reddit.com/r/EarthPorn/')
       .then((res) => {
         this.setState({
-          content: res.data.data.children.skip(1).where(d => /flickr/.test(d.data.url) === false).map(d => {
-            const url = decodeHTML(d.data.url);
-            return {
-              url: /http:\/\/imgur.com/.test(url) ? url.replace('http://imgur.com', 'http://i.imgur.com') + '.jpg' : url,
-              id: d.data.id
-            };
-          })
+          content: res
+            .data
+            .data
+            .children
+            .skip(1)
+            .filter(d => /flickr/.test(d.data.url) === false)
+            .map(d => {
+              const url = decodeHTML(d.data.url);
+              return {
+                url: /http:\/\/imgur.com/.test(url)
+                  ? url.replace('http://imgur.com', 'http://i.imgur.com') + '.jpg'
+                  : url,
+                id: d.data.id
+              };
+            })
         })
       })
       .catch((err) => {
@@ -35,11 +41,11 @@ class App extends Component {
   render() {
     const {content = []} = this.state;
     return (
-      <div style={{width: '100%'}}>
-        {content.map(({url, id}) => <img src={url} key={id} style={{ maxWidth: '100%' }} role='presentation'/>)}
+      <div style={{ width: '100%' }}>
+        {content.map(({url, id}) => <img src={url} key={id} style={{ maxWidth: '100%' }} role='presentation'/>) }
         <a href="https://www.reddit.com/r/EarthPorn" target="_blank">Source</a>
       </div>
-    )
+    );
   }
 }
 
