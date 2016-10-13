@@ -33,14 +33,10 @@ class App extends Component {
 
 
   render() {
-    const {content} = this.state;
-    console.log(content);
+    const {content = []} = this.state;
     return (
-      <div>
-        {content
-          ? content.map(({url, id}) => <img src={url} key={id} style={{ maxWidth: '100%' }} role='presentation'/>)
-          : <div/>
-        }
+      <div style={{width: '100%'}}>
+        {content.map(({url, id}) => <img src={url} key={id} style={{ maxWidth: '100%' }} role='presentation'/>)}
         <a href="https://www.reddit.com/r/EarthPorn" target="_blank">Source</a>
       </div>
     )
