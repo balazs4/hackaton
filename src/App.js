@@ -1,10 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 
 const App = ({url}) =>
-  <div style={{ width: '100%' }}>
-    <img style={{ width: '100%' }} src={url} alt="EarthPorn" role='presentation' />
-    <a href="https://www.reddit.com/r/EarthPorn" target="_blank">Source</a>
+  <div>
+    <img style={{ width: '100%', maxHeight:'100%' }} src={url} alt="EarthPorn" role='presentation' />
   </div>
 
 export default connect(
