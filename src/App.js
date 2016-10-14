@@ -1,8 +1,6 @@
 import React, {Component} from 'react';
 import {get} from 'axios';
 import {decodeHTML} from 'entities';
-import 'js-array-extensions';
-
 
 class App extends Component {
 
@@ -19,7 +17,7 @@ class App extends Component {
             .data
             .data
             .children
-            .skip(1)
+            .slice(1)
             .filter(d => /flickr/.test(d.data.url) === false)
             .map(d => {
               const url = decodeHTML(d.data.url);
