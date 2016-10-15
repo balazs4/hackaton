@@ -15,7 +15,7 @@ const reducer = (state, {type, payload}) => {
   }
 }
 
-const initstate = { url: 'https://camo.githubusercontent.com/b13830f5a9baecd3d83ef5cae4d5107d25cdbfbe/68747470733a2f2f662e636c6f75642e6769746875622e636f6d2f6173736574732f3732313033382f313732383830352f35336532613364382d363262352d313165332d383964312d3934376632373062646430332e706e67' }
+const initstate = { url: 'https://www.redditstatic.com/icon.png' }
 
 const store = createStore(
   reducer,
@@ -62,8 +62,8 @@ get('https://api.reddit.com/r/EarthPorn/')
       .map(d => {
         const url = decodeHTML(d.data.url);
         return {
-          url: /http:\/\/imgur.com/.test(url)
-            ? url.replace('http://imgur.com', 'http://i.imgur.com') + '.jpg'
+          url: /\/\/imgur.com/.test(url)
+            ? url.replace('//imgur.com', '//i.imgur.com') + '.jpg'
             : url,
           id: d.data.id
         };

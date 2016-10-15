@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 
 const App = ({url}) =>
   <div>
-    <img style={{ width: '100%', maxHeight:'100%' }} src={url} alt="EarthPorn" role='presentation' />
+    <img style={{ maxWidth: '100%', maxHeight:'100%' }} src={url} alt={url} role='presentation' 
+    onLoad={() => console.log('Loaded')}
+    onError={() => console.log('Error')}/>
   </div>
 
 export default connect(
