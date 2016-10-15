@@ -5,12 +5,12 @@
 
 + [X] ``create-react-app``
 + [X] add ``redux``
-+ use ``jest`` (snapshot and non-snapshot testing)
++ [ ] use ``jest`` (snapshot and non-snapshot testing)
 + [X] add ``rxjs``
-+ animation
++ [ ] animation
 + [X] deploy it with ``now``
-+ (optional) add ``graphql``
-+ (optional) electron deployment
++ [ ] add ``graphql`` (optional) 
++ [ ] electron deployment (optional) 
 
 ----
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
