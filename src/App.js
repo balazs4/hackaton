@@ -22,5 +22,19 @@ const App = ({url}) =>
   </div>
 
 export default connect(
-  state => ({ url: state.url })
+  state => {
+    if (state.images === undefined)
+      return {
+        url: state.fallback
+      }
+
+    if (state.index >= state.images.length)
+      return {
+        url: state.images[state.images.length - 1].url
+      }
+
+    return {
+      url: state.images[state.index].url
+    }
+  }
 )(App);

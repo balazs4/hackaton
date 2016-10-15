@@ -1,26 +1,49 @@
 import React from 'react';
 import { render } from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
+import 'rxjs';
+import { createEpicMiddleware, combineEpics } from 'redux-observable';
+
 import App from './App';
 
 const reducer = (state, {type, payload}) => {
   switch (type) {
+    case 'IMAGES_LOADED':
+      return Object.assign({}, state, payload)
     case 'NEXT_IMAGE':
-      return { url: payload.url }
+      return Object.assign({}, state,
+        { index: state.index + 1 },
+        payload
+      )
 
     default:
       return state
   }
 }
 
-const initstate = { url: 'https://www.redditstatic.com/icon.png' }
+const initstate = { fallback: 'https://www.redditstatic.com/icon.png' }
+
+const nextImageEpic = (action$,s) =>
+  action$
+    .ofType('NEXT_IMAGE')
+    .takeUntil(action$.filter(action => s.getState().index >= s.getState().images.length))
+    .delay(5000)
+    .mapTo({ type: 'NEXT_IMAGE' })
+
+
+const loadImageEpic = action$ =>
+  action$
+    .ofType('IMAGES_LOADED')
+    .mapTo({ type: 'NEXT_IMAGE', payload: { index: 0 } })
 
 const store = createStore(
   reducer,
   initstate,
-  composeWithDevTools()
+  composeWithDevTools(
+    applyMiddleware(createEpicMiddleware(combineEpics(loadImageEpic, nextImageEpic)))
+  )
 );
 
 render(
@@ -31,29 +54,12 @@ render(
 );
 
 
-
-
-
-let images = [];
-let index = 0;
-
-
-const loop = setInterval(() => {
-  if (images.length !== 0 && images.length === index) {
-    clearInterval(loop);
-    return;
-  }
-  store.dispatch({ type: 'NEXT_IMAGE', payload: images[index++] })
-}, 5000);
-
-
-
 import { get } from 'axios';
 import { decodeHTML } from 'entities';
 
 get('https://api.reddit.com/r/EarthPorn/')
   .then((res) => {
-    images = res
+    const images = res
       .data
       .data
       .children
@@ -68,7 +74,9 @@ get('https://api.reddit.com/r/EarthPorn/')
           id: d.data.id
         };
       })
+    store.dispatch({ type: 'IMAGES_LOADED', payload: { images, index: 0 } })
   })
   .catch((err) => {
     console.error(err);
   });
+
