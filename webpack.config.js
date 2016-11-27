@@ -6,7 +6,7 @@ const {join} = require('path');
 module.exports = env => ({
   entry: {
     app: join(__dirname, 'src', 'index.js'),
-    vendor: ['preact']
+    vendor: ['preact', 'rxjs']
   },
   output: {
     path: join(__dirname, 'dist'),
