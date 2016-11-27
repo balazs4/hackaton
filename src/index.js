@@ -1,8 +1,13 @@
-import { h, render } from 'preact';
+import 'preact/devtools';
+import { Observable } from 'rxjs';
+import { h, render, Component } from 'preact';
 
-import App from './app';
+
+import rxify from './rxify';
+import Showcase from './showcase';
+import { img$ } from './source';
 
 render(
-  <App />,
+  h(rxify(Showcase, img$)),
   document.getElementById('app')
 );
