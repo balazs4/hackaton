@@ -7,7 +7,4 @@ import rxify from './rxify';
 import Showcase from './showcase';
 import { img$ } from './source';
 
-render(
-  h(rxify(Showcase, img$)),
-  document.getElementById('app')
-);
+render(h(rxify(Showcase, img$)),document.getElementById('app'));

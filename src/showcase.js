@@ -1,9 +1,10 @@
-import {h} from 'preact';
+import { h } from 'preact';
 
-const Showcase = ({source$}, {}) =>(
+const Showcase = ({source$: {title = "", url = "#"} = {}}, {}) => (
     <div>
-        <pre>{JSON.stringify(source$)}</pre>
+        <h3>{title}</h3>
+        <img src={url} alt={title} style={{ width: "50%", height: "50%"  }}/>
     </div>
-) 
+)
 
 export default Showcase;
