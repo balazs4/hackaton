@@ -12,7 +12,11 @@ export const img$ = Observable
 */
 
 export const img$ = Observable
-    .ajax(`/EarthPorn.json`)
+    .ajax({
+        url: `https://api.reddit.com/r/EarthPorn.json`,
+        crossDomain: true,
+        //createXHR: () => new XMLHttpRequest()
+    })
     .map(x => x.response)
     .map(x => x.data.children)
     .switchMap(items => Observable.zip(
