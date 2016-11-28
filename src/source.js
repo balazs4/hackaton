@@ -16,13 +16,13 @@ export const img$ = Observable
     .map(x => x.response)
     .map(x => x.data.children)
     .switchMap(items => Observable.zip(
-        Observable.timer(0,5000),
-        Observable.from(items)
+        Observable.timer(0, 5000),
+        Observable.from(items).filter(({ data: { url } }) => /i.imgur/.test(url))
     ))
     .map(x => x[1])
-    .do(x => console.log(x))
     .map(x => x.data)
-    .map(({ title, thumbnail }) => ({
+    .map(({ title, url }) => ({
         title,
-        url: thumbnail
+        url
     }))
+    .do(x => console.log(x))
